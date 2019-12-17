@@ -20,16 +20,18 @@ import lancamento
 from . import views
 from rest_framework.routers import DefaultRouter
 from lancamento import views as lancamento
-
+from autenticacao import views as autenticacao
 
 router = DefaultRouter()
 #
 router.register(r'tipolancamentoviewapi', lancamento.TipoLancamentoAPI)
 router.register(r'lancamentoviewapi', lancamento.LancamentoAPI)
+router.register(r'userviewapi', autenticacao.UserAPI)
 
 urlpatterns = [
     path('', views.HomeView.as_view(), name='home'),
     path('admin/', admin.site.urls),
     path('lancamento/', include('lancamento.urls')),
+    path('auth/', include('autenticacao.urls')),
     url(r'^', include(router.urls)),
 ]

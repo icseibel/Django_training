@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'lancamento',
-    'xpence_project'
+    'xpence_project',
+    'autenticacao'
 ]
 
 MIDDLEWARE = [
@@ -131,8 +132,8 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         #'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-        'rest_framework.permissions.AllowAny'
-        #'rest_framework.permissions.IsAuthenticated'
+        #'rest_framework.permissions.AllowAny'
+        'rest_framework.permissions.IsAuthenticated'
     ],
 
     'DEFAULT_PARSER_CLASSES': (
