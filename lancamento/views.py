@@ -3,6 +3,7 @@ from django import views
 from django.http import JsonResponse
 from .serializers import TipoLancamentoSerializer, LancamentoSerializer
 from rest_framework import generics, viewsets
+from rest_framework.exceptions import PermissionDenied
 
 # Create your views here.
 from django.shortcuts import render
@@ -58,3 +59,9 @@ class TipoLancamentoAPI(viewsets.ModelViewSet):
 class LancamentoAPI(viewsets.ModelViewSet):
     queryset = Lancamento.objects.all().order_by('-id')
     serializer_class = LancamentoSerializer
+       
+    def destroy(self, request, *args, **kwargs):
+         lancamento = Lancamento.objects.get(pk=self.kwargs["pk"])
+         if not request.user == lancamento.created_by:
+             raise PermissionDenied("Voce não tem permissão para apagar esse lancamento.")
+         return super().destroy(request, *args, **kwargs)
