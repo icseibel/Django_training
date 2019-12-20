@@ -1,15 +1,21 @@
 from django.shortcuts import render, get_object_or_404
 from django import views
 from django.http import JsonResponse
-from .serializers import TipoLancamentoSerializer, LancamentoSerializer
+from .serializers import TipoLancamentoSerializer, LancamentoSerializer, ReceitaSerializer
 from rest_framework import generics, viewsets
+from rest_framework.views import APIView, Response
 from rest_framework.exceptions import PermissionDenied
+from rest_framework import status
+from rest_framework.decorators import permission_classes
+from rest_framework import permissions
 
 # Create your views here.
 from django.shortcuts import render
 #from django.http import HttpResponse
 from lancamento.external_apis import TestRequest
-from lancamento.models import TipoLancamento, Lancamento
+from lancamento.models import TipoLancamento, Lancamento, Receita
+from .raw_sql_queries import get_lancamentos
+from .raw_sql_queries import get_saldo
 
 def tipo_lancamento_list(request):
     MAX_OBJECTS = 20
@@ -65,3 +71,32 @@ class LancamentoAPI(viewsets.ModelViewSet):
          if not request.user == lancamento.created_by:
              raise PermissionDenied("Voce não tem permissão para apagar esse lancamento.")
          return super().destroy(request, *args, **kwargs)
+
+@permission_classes((permissions.AllowAny,))
+class ReceitaAPI(viewsets.ModelViewSet):
+    queryset = Receita.objects.all().order_by('-id')
+    serializer_class = ReceitaSerializer
+       
+    def destroy(self, request, *args, **kwargs):
+         receita = Receita.objects.get(pk=self.kwargs["pk"])
+         if not request.user == receita.created_by:
+             raise PermissionDenied("Voce não tem permissão para apagar essa receita.")
+         return super().destroy(request, *args, **kwargs)
+
+class LancamentoQueryViewSet(APIView):
+
+    def get(self, request):
+        user = self.request.query_params.get('user', None)
+
+        result = get_lancamentos(user=user)
+        # print(result)
+        return Response(result, content_type="application/json", status=status.HTTP_200_OK)
+
+class SaldoQueryViewSet(APIView):
+
+    def get(self, request):
+        user = self.request.query_params.get('user', None)
+
+        result = get_saldo(user=user)
+        # print(result)
+        return Response(result, content_type="application/json", status=status.HTTP_200_OK)

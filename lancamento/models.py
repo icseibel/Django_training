@@ -15,3 +15,13 @@ class Lancamento(models.Model):
     data = models.DateTimeField(auto_now_add=True, null=True)
     tipolancamento = models.ForeignKey(TipoLancamento, on_delete=models.PROTECT, related_name='tipolancamento_fk', null=True)
     created_by = models.ForeignKey(User, on_delete=models.PROTECT, related_name='lancamento_user_fk', null=True)
+    
+    models.Index(fields=['data'], name='lancamento_idx01')
+
+
+class Receita(models.Model):
+
+    descricao = models.CharField(max_length=100)
+    valor = models.FloatField()
+    data = models.DateTimeField(auto_now_add=True, null=True)
+    created_by = models.ForeignKey(User, on_delete=models.PROTECT, related_name='receita_user_fk', null=True)

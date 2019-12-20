@@ -27,6 +27,7 @@ router = DefaultRouter()
 router.register(r'tipolancamentoviewapi', lancamento.TipoLancamentoAPI)
 router.register(r'lancamentoviewapi', lancamento.LancamentoAPI)
 router.register(r'userviewapi', autenticacao.UserAPI)
+router.register(r'receitaviewapi', lancamento.ReceitaAPI)
 
 urlpatterns = [
     path('', views.HomeView.as_view(), name='home'),
