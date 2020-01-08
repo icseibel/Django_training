@@ -18,6 +18,11 @@ class Lancamento(models.Model):
     
     models.Index(fields=['data'], name='lancamento_idx01')
 
+class LancamentoItem(models.Model):
+
+    lancamento = models.ForeignKey(Lancamento, on_delete=models.PROTECT, related_name='itenslancamento')
+    descricao = models.CharField(max_length=100)
+    valor = models.FloatField()
 
 class Receita(models.Model):
 
