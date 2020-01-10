@@ -64,7 +64,7 @@ class TipoLancamentoAPI(viewsets.ModelViewSet):
 
 class LancamentoAPI(viewsets.ModelViewSet):
     queryset = Lancamento.objects.all().order_by('-id')
-    serializer_class = LancamentoSerializer
+    serializer_class = LancamentoSerializer    
        
     def destroy(self, request, *args, **kwargs):
          lancamento = Lancamento.objects.get(pk=self.kwargs["pk"])
