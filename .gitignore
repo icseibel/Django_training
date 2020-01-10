@@ -4,3 +4,5 @@ __pycache__/
 
 .vscode/launch.json
 .vscode/
+autenticacao/publisher.py
+consumer.py
