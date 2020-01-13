@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    #'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
     'lancamento',
@@ -148,3 +148,5 @@ REST_FRAMEWORK = {
     
     'TEST_REQUEST_DEFAULT_FORMAT': 'json'
 }
+
+CELERY_BROKER_URL = 'amqp://localhost'

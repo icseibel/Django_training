@@ -43,13 +43,12 @@ async def main(loop, msg):
 @receiver(post_save, sender=Lancamento)
 def update_registro(sender, instance, created,**kwargs):
     if created:
-        wrap_dict = {'id_objeto':instance.id,
-                     'processo':'Lançamento',
-                     'valor':instance.valor}
+        # wrap_dict = {'id_objeto':instance.id,
+        #              'processo':'Lançamento',
+        #              'valor':instance.valor}
     
-        loop = asyncio.new_event_loop()
-        loop.run_until_complete(main(loop,wrap_dict))
-    
-    #     RegistroMovimento.objects.create(id_objeto=instance.id,
-    #                                      processo='Lançamento',
-    #                                      valor=instance.valor)
+        # loop = asyncio.new_event_loop()
+        # loop.run_until_complete(main(loop,wrap_dict))    
+        RegistroMovimento.objects.create(id_objeto=instance.id,
+                                         processo='Lançamento',
+                                         valor=instance.valor)

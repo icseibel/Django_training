@@ -8,6 +8,7 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework import status
 from rest_framework.decorators import permission_classes
 from rest_framework import permissions
+from rest_framework.filters import SearchFilter, OrderingFilter
 
 # Create your views here.
 from django.shortcuts import render
@@ -64,7 +65,9 @@ class TipoLancamentoAPI(viewsets.ModelViewSet):
 
 class LancamentoAPI(viewsets.ModelViewSet):
     queryset = Lancamento.objects.all().order_by('-id')
-    serializer_class = LancamentoSerializer    
+    serializer_class = LancamentoSerializer
+    filter_backends = (SearchFilter, OrderingFilter)
+    search_fields = ('descricao', 'valor', 'created_by__username')
        
     def destroy(self, request, *args, **kwargs):
          lancamento = Lancamento.objects.get(pk=self.kwargs["pk"])
